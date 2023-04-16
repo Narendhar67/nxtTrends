@@ -20,8 +20,14 @@ class App extends Component {
   //   TODO: Add your code for remove all cart items, increment cart item quantity, decrement cart item quantity, remove cart item
 
   addCartItem = product => {
-    this.setState(prevState => ({cartList: [...prevState.cartList, product]}))
-    //   TODO: Update the code here to implement addCartItem
+    const {cartList} = this.state
+    const itemIndex = cartList.findIndex(each => product.id === each.id)
+    if (itemIndex === -1) {
+      this.setState(prevState => ({cartList: [...prevState.cartList, product]}))
+      //   TODO: Update the code here to implement addCartItem
+    } else {
+      cartList[itemIndex].quantity += product.quantity
+    }
   }
 
   removeCartItem = id => {
@@ -37,29 +43,32 @@ class App extends Component {
 
   incrementCartItemQuantity = id => {
     const {cartList} = this.state
-    const cartItemDetails = cartList.find(each => each.id === id)
-    const updatedProduct = {
-      ...cartItemDetails,
-      quantity: cartItemDetails.quantity + 1,
-    }
-    const updatedData = cartList.filter(each => each.id !== cartItemDetails.id)
-    this.setState({cartList: [...updatedData, updatedProduct]})
+    const indexOfItem = cartList.findIndex(each => each.id === id)
+    // const updatedProduct = {
+    //   ...cartList[indexOfItem],
+    //   quantity: cartList[indexOfItem].quantity + 1,
+    // }
+    //  cartList.splice(indexOfItem, 1, updatedProduct)
+    cartList[indexOfItem].quantity += 1
+
+    this.setState({cartList})
   }
 
   decrementCartItemQuantity = id => {
     const {cartList} = this.state
-    const cartItemDetails = cartList.find(each => each.id === id)
-    if (cartItemDetails.quantity <= 1) {
+    const indexOfItem = cartList.findIndex(each => each.id === id)
+    if (cartList[indexOfItem].quantity <= 1) {
       this.removeCartItem(id)
     } else {
-      const updatedProduct = {
-        ...cartItemDetails,
-        quantity: cartItemDetails.quantity - 1,
-      }
-      const updatedData = cartList.filter(
-        each => each.id !== cartItemDetails.id,
-      )
-      this.setState({cartList: [...updatedData, updatedProduct]})
+      //   const updatedProduct = {
+      //     ...cartList[indexOfItem],
+      //     quantity: cartList[indexOfItem].quantity - 1,
+      //   }
+      //   cartList.splice(indexOfItem, 1, updatedProduct)
+
+      cartList[indexOfItem].quantity -= 1
+
+      this.setState({cartList})
     }
   }
 

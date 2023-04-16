@@ -27,6 +27,7 @@ class App extends Component {
       //   TODO: Update the code here to implement addCartItem
     } else {
       cartList[itemIndex].quantity += product.quantity
+      this.setState({cartList})
     }
   }
 
@@ -44,11 +45,6 @@ class App extends Component {
   incrementCartItemQuantity = id => {
     const {cartList} = this.state
     const indexOfItem = cartList.findIndex(each => each.id === id)
-    // const updatedProduct = {
-    //   ...cartList[indexOfItem],
-    //   quantity: cartList[indexOfItem].quantity + 1,
-    // }
-    //  cartList.splice(indexOfItem, 1, updatedProduct)
     cartList[indexOfItem].quantity += 1
 
     this.setState({cartList})
@@ -60,12 +56,6 @@ class App extends Component {
     if (cartList[indexOfItem].quantity <= 1) {
       this.removeCartItem(id)
     } else {
-      //   const updatedProduct = {
-      //     ...cartList[indexOfItem],
-      //     quantity: cartList[indexOfItem].quantity - 1,
-      //   }
-      //   cartList.splice(indexOfItem, 1, updatedProduct)
-
       cartList[indexOfItem].quantity -= 1
 
       this.setState({cartList})
